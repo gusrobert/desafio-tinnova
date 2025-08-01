@@ -6,9 +6,6 @@ public class Election {
     private int totalBlankVotes;
     private int totalNullVotes;
 
-    Election() {
-    }
-
     public Election(int totalVoters, int totalValidVotes, int totalBlankVotes, int totalNullVotes) {
         this.totalVoters = totalVoters;
         this.totalValidVotes = totalValidVotes;

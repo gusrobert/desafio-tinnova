@@ -43,7 +43,7 @@ public class Vehicle {
     @JsonBackReference
     private Brand brand;
 
-    @Column(name = "year", nullable = false)
+    @Column(name = "vehicle_year", nullable = false)
     private Integer year;
 
     @Column(name = "description", length = 500)
