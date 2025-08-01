@@ -17,6 +17,7 @@ export const endpoints = {
   exercises: {
     electionPercentages: `${API_URL}/api/exercises/election-percentages`,
     bubbleSort: `${API_URL}/api/exercises/bubble-sort`,
+    factorial: `${API_URL}/api/exercises/factorial`,
   },
 };
 

@@ -65,4 +65,17 @@ export class ExerciseService {
     );
     return response;
   }
+
+  /**
+   * Calculates the factorial of a number
+   * @param number Number to calculate the factorial
+   * @returns Factorial result
+   */
+  static async calculateFactorial(number: number): Promise<number> {
+    if (number < 0) {
+      throw new Error('Number cannot be negative');
+    }
+
+    return ApiClient.get<number>(`${endpoints.exercises.factorial}?number=${number}`);
+  }
 }
