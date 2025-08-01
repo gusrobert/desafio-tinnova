@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 public class VehicleResponseDTO {
     private Long id;
     private String plate;
+    private Long brandId;
     private String brandName;
+    private Long modelId;
     private String modelName;
     private Integer year;
     private String description;

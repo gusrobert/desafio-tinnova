@@ -48,7 +48,9 @@ public class VehicleService {
         return new VehicleResponseDTO(
             vehicle.getId(),
             vehicle.getPlate(),
+            vehicle.getBrand().getId(),
             vehicle.getBrand().getName(),
+            vehicle.getModel().getId(),
             vehicle.getModel().getName(),
             vehicle.getYear(),
             vehicle.getDescription(),
