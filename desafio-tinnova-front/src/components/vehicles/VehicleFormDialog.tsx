@@ -62,12 +62,12 @@ export default function VehicleFormDialog({ isOpen, onOpenChange, vehicle, onSub
 
   useEffect(() => {
     if (vehicle) {
-      setSelectedBrandId(vehicle.brandId.toString());
-      setSelectedModelId(vehicle.modelId.toString());
+      setSelectedBrandId(vehicle.brandId?.toString() || '');
+      setSelectedModelId(vehicle.modelId?.toString() || '');
       reset({
         plate: vehicle.plate || '',
-        modelId: vehicle.modelId.toString(),
-        brandId: vehicle.brandId.toString(),
+        modelId: vehicle.modelId?.toString() || '',
+        brandId: vehicle.brandId?.toString() || '',
         year: vehicle.year,
         description: vehicle.description || '',
         isSold: vehicle.isSold,

@@ -36,13 +36,14 @@ export default function AppSidebar() {
   return (
     <Sidebar collapsible="icon" variant="sidebar" side="left" className="border-r bg-[#202020]">
       <SidebarHeader className="p-4 items-center justify-center bg-[#202020]">
-        <Link href="/exercicios" className="flex items-center gap-2 text-white hover:text-gray-300">
+        <Link href="/" className="flex items-center gap-2 text-white hover:text-gray-300">
           <Image
             src="/images/logo.png"
             alt="Desafio Tinnova"
             width={0}
             height={0}
             sizes="100vw"
+            priority
             style={{ 
               width: "auto", 
               height: "auto",
@@ -84,7 +85,7 @@ export default function AppSidebar() {
             <SidebarMenuItem key={item.href}>
               <SidebarMenuButton
                   asChild
-                  isActive={pathname === item.href || (item.href !== "/exercicios" && pathname.startsWith(item.href))}
+                  isActive={pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))}
                   tooltip={{ children: item.label, side: "right" }}
                   className="justify-start"
                 >

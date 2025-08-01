@@ -54,12 +54,10 @@ export const vehicleService = {
 
   async create(vehicle: Vehicle): Promise<Vehicle> {
     try {
-      console.log('Creating vehicle with data:', mapVehicleToBackend(vehicle));
       const data = await ApiClient.post<any>(
         `${endpoints.vehicles.base}`,
         mapVehicleToBackend(vehicle)
       );
-      console.log('Backend response for create:', data);
       return mapVehicleFromBackend(data);
     } catch (error) {
       console.error('Error creating vehicle:', error);

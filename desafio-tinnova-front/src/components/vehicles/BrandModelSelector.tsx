@@ -95,7 +95,7 @@ export function BrandModelSelector({
           </SelectTrigger>
           <SelectContent>
             {brands.map((brand) => (
-              <SelectItem key={brand.id} value={brand.id}>
+              <SelectItem key={brand.id} value={brand.id.toString()}>
                 {brand.name}
               </SelectItem>
             ))}
@@ -124,7 +124,7 @@ export function BrandModelSelector({
           </SelectTrigger>
           <SelectContent>
             {models.map((model) => (
-              <SelectItem key={model.id} value={model.id}>
+              <SelectItem key={model.id} value={model.id.toString()}>
                 {model.name}
               </SelectItem>
             ))}

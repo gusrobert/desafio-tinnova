@@ -2,14 +2,14 @@ import { endpoints } from './api-config';
 import { ApiClient } from './api-client';
 
 export interface VehicleBrand {
-  id: string;
+  id: string | number;
   name: string;
 }
 
 export interface VehicleModel {
-  id: string;
+  id: string | number;
   name: string;
-  brandId: string;
+  brandId: string | number;
 }
 
 // Cache para evitar múltiplas requisições
