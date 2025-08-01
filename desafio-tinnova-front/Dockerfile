@@ -11,22 +11,19 @@ COPY . .
 
 RUN npm run build
 
-RUN npm prune --production
-
-# Etapa 2: execução
+# Etapa 2: execução (Next.js Standalone)
 FROM node:22-alpine
 
 WORKDIR /app
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/package-lock.json ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.ts ./
 
-RUN npm install --only=production
+# Copiar apenas o que é necessário para standalone
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
 EXPOSE 3000
 
 ENV PORT=3000
-CMD ["npm", "start"]
+ENV HOSTNAME=0.0.0.0
+
+CMD ["node", "server.js"]

@@ -28,7 +28,7 @@ CREATE TABLE vehicles (
     plate VARCHAR(10) NOT NULL UNIQUE,
     model_id BIGINT NOT NULL,
     brand_id BIGINT NOT NULL,
-    year INTEGER NOT NULL,
+    vehicle_year INTEGER NOT NULL,
     description TEXT,
     is_sold BOOLEAN NOT NULL DEFAULT false,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -184,7 +184,7 @@ INSERT INTO models (name, brand_id) VALUES
 -- Índices para melhor performance
 CREATE INDEX idx_vehicles_brand_id ON vehicles(brand_id);
 CREATE INDEX idx_vehicles_model_id ON vehicles(model_id);
-CREATE INDEX idx_vehicles_year ON vehicles(year);
+CREATE INDEX idx_vehicles_year ON vehicles(vehicle_year);
 CREATE INDEX idx_vehicles_is_sold ON vehicles(is_sold);
 CREATE INDEX idx_vehicles_created_at ON vehicles(created_at);
 CREATE INDEX idx_models_brand_id ON models(brand_id);
