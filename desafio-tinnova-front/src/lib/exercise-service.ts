@@ -78,4 +78,17 @@ export class ExerciseService {
 
     return ApiClient.get<number>(`${endpoints.exercises.factorial}?number=${number}`);
   }
+
+  /**
+   * Calculates the sum of all multiples of 3 or 5 below a given number
+   * @param number The upper limit for the calculation
+   * @returns The sum of multiples of 3 or 5 below the number
+   */
+  static async sumMultiplesOf3And5(number: number): Promise<number> {
+    if (number < 0) {
+      throw new Error('Number cannot be negative');
+    }
+
+    return ApiClient.get<number>(`${endpoints.exercises.sumMultiplesOf3Or5}?number=${number}`);
+  }
 }

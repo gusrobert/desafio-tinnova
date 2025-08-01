@@ -5,7 +5,7 @@ export default function Exercicio3Page() {
   return (
     <AppLayout pageTitle="Exercício 3">
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">Exercício 3</h1>
+        <h1 className="text-2xl font-bold mb-4">Fatorial</h1>
         <div className="bg-gray-50 rounded-lg p-4 mb-6">
           {/* Conteúdo do exercício 3 */}
           <h2 className="text-lg font-semibold mb-4">Descrição do Problema</h2>

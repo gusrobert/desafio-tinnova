@@ -1,7 +1,5 @@
 package br.com.tinnova.desafio_tinnova_back.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,6 +39,13 @@ public class ExerciseController {
     @GetMapping("/factorial")
     public ResponseEntity<Long> calculateFactorial(@RequestParam int number) {
         long result = exerciseService.calculateFactorial(number);
+        return ResponseEntity.ok(result);
+    }
+    
+    @GetMapping("/sum-multiples-of-3-or-5")
+    public ResponseEntity<Long> sumMultiplesOf3Or5(@RequestParam int number) {
+        long result = exerciseService.sumMultiplesOf3Or5(number);
+
         return ResponseEntity.ok(result);
     }
     

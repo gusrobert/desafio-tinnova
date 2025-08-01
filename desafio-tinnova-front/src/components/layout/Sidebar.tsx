@@ -12,14 +12,15 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { Car, ChevronRight, LayoutList } from "lucide-react";
+import { Car, ChevronRight, LayoutList, BarChart3 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 
 const navItems = [
-  { href: "/gestao-veiculos", label: "Gestão de veículos", icon: Car },
+  { href: "/vehicles-dashboard", label: "Dashboard de Veículos", icon: BarChart3 },
+  { href: "/vehicles", label: "Gestão de veículos", icon: Car },
 ];
 
 const exerciseItems = [
@@ -39,8 +40,15 @@ export default function AppSidebar() {
           <Image
             src="/images/logo.png"
             alt="Desafio Tinnova"
-            width={160}
-            height={160}
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ 
+              width: "auto", 
+              height: "auto",
+              maxWidth: "160px",
+              maxHeight: "160px"
+            }}
             className="object-contain transition-transform"
           />
         </Link>

@@ -39,7 +39,7 @@ export default function DeleteConfirmationDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>{title || `Confirmar Exclusão`}</AlertDialogTitle>
           <AlertDialogDescription>
-            {description || `Tem certeza que deseja excluir ${itemType === 'agendamento' ? '' : 'o(a) '}${itemType} "${itemName}"? Esta ação não pode ser desfeita.`}
+            {description || `Tem certeza que deseja excluir ${'o(a) '}${itemType} "${itemName}"? Esta ação não pode ser desfeita.`}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

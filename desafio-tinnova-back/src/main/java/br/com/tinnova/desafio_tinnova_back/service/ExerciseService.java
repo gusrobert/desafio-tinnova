@@ -78,4 +78,20 @@ public class ExerciseService {
         
         return result;
     }
+
+    public long sumMultiplesOf3Or5(int number) {
+        if (number < 0) {
+            throw new IllegalArgumentException("Número não pode ser negativo");
+        }
+
+        long sum = 0;
+
+        for (int i = 0; i < number; i++) {
+            if (i % 3 == 0 || i % 5 == 0) {
+                sum += i;
+            }
+        }
+
+        return sum;
+    }
 }

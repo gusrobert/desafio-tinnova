@@ -5,7 +5,7 @@ export default function Exercise2Page() {
   return (
     <AppLayout pageTitle="Exercício 2">
       <div className="p-6">
-        <h1 className="text-2xl font-bold mb-4">Exercício 2</h1>
+        <h1 className="text-2xl font-bold mb-4">Algoritmo de ordenação Bubble Sort</h1>
         <div className="bg-gray-50 rounded-lg p-4 mb-6">
           <h2 className="text-lg font-semibold mb-4">Descrição do Problema</h2>
           <p className="text-gray-700 mb-4">Imagine o seguinte vetor:</p>

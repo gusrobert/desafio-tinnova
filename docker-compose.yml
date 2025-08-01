@@ -11,8 +11,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - tinnova-network
+    # networks:
+      # - tinnova-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin -d desafio_tinnova"]
       interval: 10s
@@ -20,47 +20,47 @@ services:
       retries: 5
 
   # Backend Spring Boot
-  backend:
-    build:
-      context: ./desafio-tinnova-back
-      dockerfile: Dockerfile
-    container_name: desafio-tinnova-backend
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/desafio_tinnova
-      SPRING_DATASOURCE_USERNAME: admin
-      SPRING_DATASOURCE_PASSWORD: admin123
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_SHOW_SQL: true
-      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
-    ports:
-      - "8080:8080"
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - tinnova-network
-    restart: unless-stopped
+#   backend:
+#     build:
+#       context: ./desafio-tinnova-back
+#       dockerfile: Dockerfile
+#     container_name: desafio-tinnova-backend
+#     environment:
+#       SPRING_PROFILES_ACTIVE: docker
+#       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/desafio_tinnova
+#       SPRING_DATASOURCE_USERNAME: admin
+#       SPRING_DATASOURCE_PASSWORD: admin123
+#       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#       SPRING_JPA_SHOW_SQL: true
+#       SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       postgres:
+#         condition: service_healthy
+#     networks:
+#       - tinnova-network
+#     restart: unless-stopped
 
-  # Frontend Next.js
-  frontend:
-    build:
-      context: ./desafio-tinnova-front
-      dockerfile: Dockerfile
-    container_name: desafio-tinnova-frontend
-    environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8080
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-    networks:
-      - tinnova-network
-    restart: unless-stopped
+#   # Frontend Next.js
+#   frontend:
+#     build:
+#       context: ./desafio-tinnova-front
+#       dockerfile: Dockerfile
+#     container_name: desafio-tinnova-frontend
+#     environment:
+#       NEXT_PUBLIC_API_URL: http://localhost:8080
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - backend
+#     networks:
+#       - tinnova-network
+#     restart: unless-stopped
 
 volumes:
   postgres_data:
 
-networks:
-  tinnova-network:
-    driver: bridge
+# networks:
+#   tinnova-network:
+#     driver: bridge
