@@ -27,7 +27,7 @@ interface VehicleTableProps {
   onDelete: (vehicleId: number) => void; 
 }
 
-type SortKey = keyof Pick<Vehicle, "modelName" | "brandName" | "year" | "isSold">;
+type SortKey = keyof Pick<Vehicle, "plate" | "modelName" | "brandName" | "year" | "isSold">;
 
 
 export default function VehicleTable({ vehicles, onEdit, onDelete }: VehicleTableProps) {
@@ -55,6 +55,7 @@ export default function VehicleTable({ vehicles, onEdit, onDelete }: VehicleTabl
     let filtered = vehicles.filter(
       (vehicle) => {
         // Verificações de segurança para evitar erros
+        const plateValue = vehicle.plate?.toLowerCase() || '';
         const modelName = vehicle.modelName?.toLowerCase() || '';
         const brandName = vehicle.brandName?.toLowerCase() || '';
         const yearValue = vehicle.year?.toString() || '';
@@ -62,6 +63,7 @@ export default function VehicleTable({ vehicles, onEdit, onDelete }: VehicleTabl
         const searchLower = searchTerm.toLowerCase();
         
         return (
+          plateValue.includes(searchLower) ||
           modelName.includes(searchLower) ||
           brandName.includes(searchLower) ||
           yearValue.includes(searchTerm) ||
@@ -103,7 +105,7 @@ export default function VehicleTable({ vehicles, onEdit, onDelete }: VehicleTabl
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
-            placeholder="Pesquisar por modelo, marca, descrição..."
+            placeholder="Pesquisar por placa, modelo, marca, descrição..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10 w-full"
@@ -114,6 +116,9 @@ export default function VehicleTable({ vehicles, onEdit, onDelete }: VehicleTabl
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead onClick={() => handleSort("plate")} className="cursor-pointer hover:bg-muted/50">
+                Placa <ArrowUpDown className={`ml-2 h-4 w-4 inline ${sortKey === 'plate' ? 'text-primary' : ''}`} />
+              </TableHead>
               <TableHead onClick={() => handleSort("modelName")} className="cursor-pointer hover:bg-muted/50">
                 Modelo <ArrowUpDown className={`ml-2 h-4 w-4 inline ${sortKey === 'modelName' ? 'text-primary' : ''}`} />
               </TableHead>
@@ -133,6 +138,9 @@ export default function VehicleTable({ vehicles, onEdit, onDelete }: VehicleTabl
             {filteredAndSortedVehicles.length > 0 ? (
               filteredAndSortedVehicles.map((vehicle) => (
                 <TableRow key={vehicle.id}>
+                  <TableCell className="font-medium">
+                    {vehicle.plate || '-'}
+                  </TableCell>
                   <TableCell className="font-medium">
                     {vehicle.modelName || '-'}
                   </TableCell>
@@ -171,7 +179,7 @@ export default function VehicleTable({ vehicles, onEdit, onDelete }: VehicleTabl
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5} className="text-center h-24">
+                <TableCell colSpan={6} className="text-center h-24">
                   Nenhum veículo encontrado.
                 </TableCell>
               </TableRow>

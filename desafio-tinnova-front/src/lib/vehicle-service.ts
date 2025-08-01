@@ -6,6 +6,7 @@ import { Vehicle } from './types';
 const mapVehicleFromBackend = (data: any): Vehicle => {
   return {
     id: data.id,
+    plate: data.plate || '',
     modelId: data.modelId || data.model?.id,
     brandId: data.brandId || data.brand?.id,
     modelName: data.model?.name || data.modelName || data.vehicle || '',
@@ -21,6 +22,7 @@ const mapVehicleFromBackend = (data: any): Vehicle => {
 // Mapear do formato do frontend para o formato do backend
 const mapVehicleToBackend = (vehicle: Vehicle): any => {
   return {
+    plate: vehicle.plate,
     modelId: vehicle.modelId,
     brandId: vehicle.brandId,
     year: vehicle.year,
@@ -101,11 +103,6 @@ export const vehicleService = {
     try {
       const vehicles = await this.getAll();
       
-      // Se não há dados reais, retornar dados mock para demonstração
-      if (vehicles.length === 0) {
-        return this.getMockStatistics();
-      }
-      
       const total = vehicles.length;
       const notSold = vehicles.filter(v => !v.isSold).length;
       const sold = vehicles.filter(v => v.isSold).length;
@@ -151,43 +148,15 @@ export const vehicleService = {
       };
     } catch (error) {
       console.error('Error fetching vehicle statistics:', error);
-      // Retornar dados mock em caso de erro
-      return this.getMockStatistics();
+      // Retornar estatísticas vazias em caso de erro
+      return {
+        total: 0,
+        notSold: 0,
+        sold: 0,
+        byYear: [],
+        byBrand: [],
+        recentlyRegistered: 0
+      };
     }
-  },
-
-  /**
-   * Get mock statistics for demonstration
-   */
-  getMockStatistics(): {
-    total: number;
-    notSold: number;
-    sold: number;
-    byYear: { year: string; count: number }[];
-    byBrand: { brand: string; count: number }[];
-    recentlyRegistered: number;
-  } {
-    return {
-      total: 25,
-      notSold: 18,
-      sold: 7,
-      byYear: [
-        { year: "2023", count: 8 },
-        { year: "2022", count: 6 },
-        { year: "2021", count: 5 },
-        { year: "2020", count: 4 },
-        { year: "2019", count: 2 },
-      ],
-      byBrand: [
-        { brand: "Toyota", count: 6 },
-        { brand: "Honda", count: 5 },
-        { brand: "Volkswagen", count: 4 },
-        { brand: "Chevrolet", count: 4 },
-        { brand: "Ford", count: 3 },
-        { brand: "Hyundai", count: 2 },
-        { brand: "Nissan", count: 1 },
-      ],
-      recentlyRegistered: 3,
-    };
   },
 };

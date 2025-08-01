@@ -22,6 +22,9 @@ import { useToast } from "@/hooks/use-toast";
 import { BrandModelSelector } from "./BrandModelSelector";
 
 const vehicleSchema = z.object({
+    plate: z.string()
+      .min(1, "Placa é obrigatória")
+      .regex(/^[A-Z]{3}-?\d[A-Z0-9]\d{2}$|^[A-Z]{3}-?\d{4}$/, "Formato de placa inválido (AAA-1234 ou AAA-1A23)"),
     modelId: z.string().min(1, "Modelo é obrigatório"),
     brandId: z.string().min(1, "Marca é obrigatória"),
     year: z.number()
@@ -37,7 +40,7 @@ interface VehicleFormDialogProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   vehicle: Vehicle | null;
-  onSubmit: (data: { modelId: number; brandId: number; year: number; description?: string; isSold: boolean; id?: number }) => void;
+  onSubmit: (data: { plate: string; modelId: number; brandId: number; year: number; description?: string; isSold: boolean; id?: number }) => void;
 }
 
 export default function VehicleFormDialog({ isOpen, onOpenChange, vehicle, onSubmit }: VehicleFormDialogProps) {
@@ -48,6 +51,7 @@ export default function VehicleFormDialog({ isOpen, onOpenChange, vehicle, onSub
   const { control, register, handleSubmit, reset, setValue, formState: { errors } } = useForm<VehicleFormData>({
     resolver: zodResolver(vehicleSchema),
     defaultValues: {
+      plate: '',
       modelId: '',
       brandId: '',
       year: new Date().getFullYear(),
@@ -61,6 +65,7 @@ export default function VehicleFormDialog({ isOpen, onOpenChange, vehicle, onSub
       setSelectedBrandId(vehicle.brandId.toString());
       setSelectedModelId(vehicle.modelId.toString());
       reset({
+        plate: vehicle.plate || '',
         modelId: vehicle.modelId.toString(),
         brandId: vehicle.brandId.toString(),
         year: vehicle.year,
@@ -71,6 +76,7 @@ export default function VehicleFormDialog({ isOpen, onOpenChange, vehicle, onSub
       setSelectedBrandId("");
       setSelectedModelId("");
       reset({
+        plate: '',
         modelId: '',
         brandId: '',
         year: new Date().getFullYear(),
@@ -133,6 +139,19 @@ export default function VehicleFormDialog({ isOpen, onOpenChange, vehicle, onSub
           {errors.modelId && <p className="text-xs text-destructive">{errors.modelId.message}</p>}
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <Label htmlFor="plate">Placa *</Label>
+              <Input 
+                id="plate" 
+                type="text"
+                placeholder="Ex: ABC-1234 ou ABC-1A23"
+                {...register("plate")} 
+                className={errors.plate ? 'border-destructive' : ''} 
+                maxLength={8}
+                style={{ textTransform: 'uppercase' }}
+              />
+              {errors.plate && <p className="text-xs text-destructive mt-1">{errors.plate.message}</p>}
+            </div>
             <div>
               <Label htmlFor="year">Ano *</Label>
               <Input 
