@@ -114,6 +114,137 @@ Para limpar volumes e reconstruir tudo do zero:
 docker compose down -v && docker compose up --build
 ```
 
+## 🧪 Testes
+
+### **Backend (Spring Boot)**
+
+Para executar os testes do backend, você tem várias opções:
+
+#### **1. Executar todos os testes:**
+```bash
+# Navegar para o diretório do backend
+cd desafio-tinnova-back
+
+# Executar todos os testes
+./mvnw test
+
+# Ou se tiver Maven instalado globalmente
+mvn test
+```
+
+#### **2. Executar testes com relatório detalhado:**
+```bash
+# Executar testes com verbose
+./mvnw test -Dtest.verbose=true
+
+# Executar testes ignorando falhas (para ver todos os resultados)
+./mvnw test -Dmaven.test.failure.ignore=true
+```
+
+#### **3. Executar testes específicos:**
+```bash
+# Executar apenas uma classe de teste
+./mvnw test -Dtest=VehicleServiceTest
+
+# Executar apenas um método específico
+./mvnw test -Dtest=VehicleServiceTest#testCreateVehicle
+
+# Executar testes por padrão de nome
+./mvnw test -Dtest="*Service*"
+```
+
+#### **4. Executar testes com cobertura:**
+```bash
+# Executar testes com relatório de cobertura (se configurado)
+./mvnw test jacoco:report
+```
+
+#### **5. Executar testes de integração:**
+```bash
+# Se houver testes de integração separados
+./mvnw integration-test
+
+# Ou executar o ciclo completo
+./mvnw verify
+```
+
+### **Frontend (Next.js)**
+
+Para executar os testes do frontend:
+
+```bash
+# Navegar para o diretório do frontend
+cd desafio-tinnova-front
+
+# Executar testes em modo watch
+npm test
+
+# Executar todos os testes uma vez
+npm run test:ci
+
+# Executar testes com cobertura
+npm run test:coverage
+```
+
+### **Docker - Executar testes**
+
+Para executar testes usando Docker:
+
+```bash
+# Executar testes do backend via Docker
+docker-compose exec backend ./mvnw test
+
+# Ou construir uma imagem específica para testes
+docker build -f Dockerfile.test ./desafio-tinnova-back
+```
+
+### **Estrutura de Testes**
+
+```
+desafio-tinnova-back/
+├── src/test/java/
+│   ├── br/com/tinnova/desafio_tinnova_back/
+│   │   ├── controller/     # Testes de controllers (API)
+│   │   ├── service/        # Testes de lógica de negócio
+│   │   ├── repository/     # Testes de repositório
+│   │   └── integration/    # Testes de integração
+│   └── resources/
+│       └── application-test.properties  # Configurações para testes
+```
+
+### **Configuração para Testes**
+
+Os testes utilizam:
+- **JUnit 5** para estrutura de testes
+- **Mockito** para mocks e stubs
+- **TestContainers** para testes com PostgreSQL real (se configurado)
+- **Spring Boot Test** para testes de integração
+- **H2 Database** para testes unitários (in-memory)
+
+### **Troubleshooting**
+
+Se encontrar problemas ao executar testes:
+
+1. **Limpar cache e recompilar:**
+   ```bash
+   ./mvnw clean test
+   ```
+
+2. **Pular testes durante build:**
+   ```bash
+   ./mvnw package -DskipTests
+   ```
+
+3. **Debug de testes:**
+   ```bash
+   ./mvnw test -Dmaven.surefire.debug
+   ```
+
+4. **Verificar logs detalhados:**
+   ```bash
+   ./mvnw test -X
+   ```
+
 ## 📁 Estrutura do Projeto
 
 ```
