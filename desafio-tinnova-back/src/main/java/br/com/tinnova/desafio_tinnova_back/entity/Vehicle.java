@@ -30,6 +30,9 @@ public class Vehicle {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "plate", nullable = false, unique = true)
+    private String plate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "model_id", nullable = false)
     @JsonBackReference

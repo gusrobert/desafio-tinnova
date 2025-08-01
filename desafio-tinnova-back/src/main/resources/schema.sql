@@ -25,6 +25,7 @@ CREATE TABLE models (
 -- Tabela de Veículos
 CREATE TABLE vehicles (
     id BIGSERIAL PRIMARY KEY,
+    plate VARCHAR(10) NOT NULL UNIQUE,
     model_id BIGINT NOT NULL,
     brand_id BIGINT NOT NULL,
     year INTEGER NOT NULL,

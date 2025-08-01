@@ -21,6 +21,7 @@ import br.com.tinnova.desafio_tinnova_back.dto.VehicleBrandDTO;
 import br.com.tinnova.desafio_tinnova_back.dto.VehicleCreateDTO;
 import br.com.tinnova.desafio_tinnova_back.dto.VehicleModelDTO;
 import br.com.tinnova.desafio_tinnova_back.dto.VehicleResponseDTO;
+import br.com.tinnova.desafio_tinnova_back.dto.VehicleUpdateDTO;
 import br.com.tinnova.desafio_tinnova_back.entity.Vehicle;
 import br.com.tinnova.desafio_tinnova_back.service.VehicleService;
 
@@ -45,14 +46,14 @@ public class VehicleController {
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vehicle> updateVehicle(@PathVariable Long id, @RequestBody Vehicle vehicle) {
-        Vehicle updatedVehicle = vehicleService.updateVehicle(id, vehicle);
+    public ResponseEntity<Vehicle> updateVehicle(@PathVariable Long id, @RequestBody VehicleUpdateDTO vehicleDTO) {
+        Vehicle updatedVehicle = vehicleService.updateVehicle(id, vehicleDTO);
         return ResponseEntity.ok(updatedVehicle);
     }
 
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vehicle> partialUpdateVehicle(@PathVariable Long id, @RequestBody Vehicle vehicle) {
-        Vehicle updatedVehicle = vehicleService.partialUpdateVehicle(id, vehicle);
+    public ResponseEntity<Vehicle> partialUpdateVehicle(@PathVariable Long id, @RequestBody VehicleUpdateDTO vehicleDTO) {
+        Vehicle updatedVehicle = vehicleService.partialUpdateVehicle(id, vehicleDTO);
         return ResponseEntity.ok(updatedVehicle);
     }
 

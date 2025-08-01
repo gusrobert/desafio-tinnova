@@ -1,7 +1,5 @@
 package br.com.tinnova.desafio_tinnova_back.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,14 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VehicleResponseDTO {
-    private Long id;
+public class VehicleUpdateDTO {
     private String plate;
-    private String brandName;
-    private String modelName;
+    private Long modelId;
+    private Long brandId;
     private Integer year;
     private String description;
     private Boolean isSold;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

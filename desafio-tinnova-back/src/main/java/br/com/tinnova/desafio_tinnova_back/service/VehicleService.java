@@ -12,12 +12,14 @@ import br.com.tinnova.desafio_tinnova_back.dto.VehicleBrandDTO;
 import br.com.tinnova.desafio_tinnova_back.dto.VehicleCreateDTO;
 import br.com.tinnova.desafio_tinnova_back.dto.VehicleModelDTO;
 import br.com.tinnova.desafio_tinnova_back.dto.VehicleResponseDTO;
+import br.com.tinnova.desafio_tinnova_back.dto.VehicleUpdateDTO;
 import br.com.tinnova.desafio_tinnova_back.entity.Brand;
 import br.com.tinnova.desafio_tinnova_back.entity.Model;
 import br.com.tinnova.desafio_tinnova_back.entity.Vehicle;
 import br.com.tinnova.desafio_tinnova_back.repository.BrandRepository;
 import br.com.tinnova.desafio_tinnova_back.repository.ModelRepository;
 import br.com.tinnova.desafio_tinnova_back.repository.VehicleRepository;
+import br.com.tinnova.desafio_tinnova_back.util.PlateValidator;
 
 @Service
 public class VehicleService {
@@ -45,6 +47,7 @@ public class VehicleService {
     private VehicleResponseDTO convertToResponseDTO(Vehicle vehicle) {
         return new VehicleResponseDTO(
             vehicle.getId(),
+            vehicle.getPlate(),
             vehicle.getBrand().getName(),
             vehicle.getModel().getName(),
             vehicle.getYear(),
@@ -56,6 +59,14 @@ public class VehicleService {
     }
 
     public Vehicle createVehicle(VehicleCreateDTO vehicleDTO) {
+        // Validar a placa
+        if (!PlateValidator.isValidPlate(vehicleDTO.getPlate())) {
+            throw new RuntimeException("Placa inválida. Use o formato brasileiro (AAA-9999) ou Mercosul (AAA-9A99)");
+        }
+        
+        // Normalizar a placa
+        String normalizedPlate = PlateValidator.normalizePlate(vehicleDTO.getPlate());
+        
         // Buscar a marca
         Brand brand = brandRepository.findById(vehicleDTO.getBrandId())
             .orElseThrow(() -> new RuntimeException("Marca não encontrada com ID: " + vehicleDTO.getBrandId()));
@@ -66,6 +77,7 @@ public class VehicleService {
         
         // Criar o veículo
         Vehicle vehicle = new Vehicle();
+        vehicle.setPlate(normalizedPlate);
         vehicle.setBrand(brand);
         vehicle.setModel(model);
         vehicle.setYear(vehicleDTO.getYear());
@@ -95,7 +107,7 @@ public class VehicleService {
         }
     }
 
-    public Vehicle updateVehicle(Long id, Vehicle vehicle) {
+    public Vehicle updateVehicle(Long id, VehicleUpdateDTO vehicleDTO) {
         Optional<Vehicle> existingVehicleOpt = vehicleRepository.findById(id);
         if (!existingVehicleOpt.isPresent()) {
             throw new RuntimeException("Veículo não encontrado com id: " + id);
@@ -103,23 +115,40 @@ public class VehicleService {
 
         Vehicle existingVehicle = existingVehicleOpt.get();
         
+        // Validar e atualizar a placa se fornecida
+        if (vehicleDTO.getPlate() != null && !vehicleDTO.getPlate().trim().isEmpty()) {
+            if (!PlateValidator.isValidPlate(vehicleDTO.getPlate())) {
+                throw new RuntimeException("Placa inválida. Use o formato brasileiro (AAA-9999) ou Mercosul (AAA-9A99)");
+            }
+            String normalizedPlate = PlateValidator.normalizePlate(vehicleDTO.getPlate());
+            existingVehicle.setPlate(normalizedPlate);
+        }
+        
         // Validar e definir o modelo
-        if (vehicle.getModel() != null && vehicle.getModel().getId() != null) {
-            Model model = modelRepository.findById(vehicle.getModel().getId())
-                .orElseThrow(() -> new RuntimeException("Modelo não encontrado com o id: " + vehicle.getModel().getId()));
+        if (vehicleDTO.getModelId() != null) {
+            Model model = modelRepository.findById(vehicleDTO.getModelId())
+                .orElseThrow(() -> new RuntimeException("Modelo não encontrado com id: " + vehicleDTO.getModelId()));
             existingVehicle.setModel(model);
         }
         
         // Validar e definir a marca
-        if (vehicle.getBrand() != null && vehicle.getBrand().getId() != null) {
-            Brand brand = brandRepository.findById(vehicle.getBrand().getId())
-                .orElseThrow(() -> new RuntimeException("Marca não encontrada com id: " + vehicle.getBrand().getId()));
+        if (vehicleDTO.getBrandId() != null) {
+            Brand brand = brandRepository.findById(vehicleDTO.getBrandId())
+                .orElseThrow(() -> new RuntimeException("Marca não encontrada com id: " + vehicleDTO.getBrandId()));
             existingVehicle.setBrand(brand);
         }
         
-        existingVehicle.setYear(vehicle.getYear());
-        existingVehicle.setDescription(vehicle.getDescription());
-        existingVehicle.setIsSold(vehicle.getIsSold());
+        if (vehicleDTO.getYear() != null) {
+            existingVehicle.setYear(vehicleDTO.getYear());
+        }
+        
+        if (vehicleDTO.getDescription() != null) {
+            existingVehicle.setDescription(vehicleDTO.getDescription());
+        }
+        
+        if (vehicleDTO.getIsSold() != null) {
+            existingVehicle.setIsSold(vehicleDTO.getIsSold());
+        }
 
         try {
             return vehicleRepository.save(existingVehicle);
@@ -128,7 +157,7 @@ public class VehicleService {
         }
     }
 
-    public Vehicle partialUpdateVehicle(Long id, Vehicle vehicle) {
+    public Vehicle partialUpdateVehicle(Long id, VehicleUpdateDTO vehicleDTO) {
         Optional<Vehicle> existingVehicleOpt = vehicleRepository.findById(id);
         if (!existingVehicleOpt.isPresent()) {
             throw new RuntimeException("Veículo não encontrado com id: " + id);
@@ -137,28 +166,36 @@ public class VehicleService {
         Vehicle existingVehicle = existingVehicleOpt.get();
         
         // Atualizar apenas os campos que não são null no objeto recebido
-        if (vehicle.getModel() != null && vehicle.getModel().getId() != null) {
-            Model model = modelRepository.findById(vehicle.getModel().getId())
-                .orElseThrow(() -> new RuntimeException("Modelo não encontrado com id: " + vehicle.getModel().getId()));
+        if (vehicleDTO.getPlate() != null && !vehicleDTO.getPlate().trim().isEmpty()) {
+            if (!PlateValidator.isValidPlate(vehicleDTO.getPlate())) {
+                throw new RuntimeException("Placa inválida. Use o formato brasileiro (AAA-9999) ou Mercosul (AAA-9A99)");
+            }
+            String normalizedPlate = PlateValidator.normalizePlate(vehicleDTO.getPlate());
+            existingVehicle.setPlate(normalizedPlate);
+        }
+        
+        if (vehicleDTO.getModelId() != null) {
+            Model model = modelRepository.findById(vehicleDTO.getModelId())
+                .orElseThrow(() -> new RuntimeException("Modelo não encontrado com id: " + vehicleDTO.getModelId()));
             existingVehicle.setModel(model);
         }
         
-        if (vehicle.getBrand() != null && vehicle.getBrand().getId() != null) {
-            Brand brand = brandRepository.findById(vehicle.getBrand().getId())
-                .orElseThrow(() -> new RuntimeException("Marca não encontrada com id: " + vehicle.getBrand().getId()));
+        if (vehicleDTO.getBrandId() != null) {
+            Brand brand = brandRepository.findById(vehicleDTO.getBrandId())
+                .orElseThrow(() -> new RuntimeException("Marca não encontrada com id: " + vehicleDTO.getBrandId()));
             existingVehicle.setBrand(brand);
         }
         
-        if (vehicle.getYear() != 0) { // Para int, verificamos se não é zero
-            existingVehicle.setYear(vehicle.getYear());
+        if (vehicleDTO.getYear() != null && vehicleDTO.getYear() != 0) {
+            existingVehicle.setYear(vehicleDTO.getYear());
         }
         
-        if (vehicle.getDescription() != null) {
-            existingVehicle.setDescription(vehicle.getDescription());
+        if (vehicleDTO.getDescription() != null) {
+            existingVehicle.setDescription(vehicleDTO.getDescription());
         }
 
-        if (vehicle.getIsSold() != null) {
-            existingVehicle.setIsSold(vehicle.getIsSold());
+        if (vehicleDTO.getIsSold() != null) {
+            existingVehicle.setIsSold(vehicleDTO.getIsSold());
         }
 
         try {

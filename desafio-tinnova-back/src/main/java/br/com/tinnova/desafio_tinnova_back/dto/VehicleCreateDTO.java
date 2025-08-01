@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VehicleCreateDTO {
+    private String plate;
     private Long modelId;
     private Long brandId;
     private Integer year;
