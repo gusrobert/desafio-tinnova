@@ -37,7 +37,6 @@ Sistema de gerenciamento de veículos com soluções para exercícios de program
 
 1. Clone o repositório:
 ```bash
-git clone [URL_DO_REPOSITORIO]
 cd desafio-tinnova/desafio-tinnova-front
 ```
 
