@@ -1,11 +1,15 @@
 package br.com.tinnova.desafio_tinnova_back.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.tinnova.desafio_tinnova_back.dto.BubbleSortResponseDTO;
@@ -23,11 +27,6 @@ public class ExerciseController {
     
     @PostMapping("/election-percentages")
     public ResponseEntity<ElectionResultDTO> calculateElectionPercentages(@RequestBody Election electionData) {
-        if (electionData == null || electionData.getTotalVoters() <= 0 || 
-        electionData.getTotalBlankVotes() < 0 || electionData.getTotalNullVotes() < 0) {
-            return ResponseEntity.badRequest().build();
-        }
-        
         ElectionResultDTO electionResult = exerciseService.calculateElectionPercentages(electionData);
 
         return ResponseEntity.ok(electionResult);
@@ -35,11 +34,13 @@ public class ExerciseController {
 
     @PostMapping("/bubble-sort")
     public ResponseEntity<BubbleSortResponseDTO> bubbleSort(@RequestBody int[] integerArray) {
-        if (integerArray == null || integerArray.length == 0) {
-            return ResponseEntity.badRequest().build();
-        }
-
         BubbleSortResponseDTO result = exerciseService.bubbleSort(integerArray);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/factorial")
+    public ResponseEntity<Long> calculateFactorial(@RequestParam int number) {
+        long result = exerciseService.calculateFactorial(number);
         return ResponseEntity.ok(result);
     }
     

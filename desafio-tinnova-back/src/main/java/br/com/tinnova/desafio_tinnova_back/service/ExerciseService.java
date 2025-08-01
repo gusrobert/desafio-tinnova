@@ -9,6 +9,11 @@ import br.com.tinnova.desafio_tinnova_back.entity.Election;
 @Service
 public class ExerciseService {
     public ElectionResultDTO calculateElectionPercentages(Election election) {
+        if (election == null || election.getTotalVoters() <= 0 || 
+            election.getTotalBlankVotes() < 0 || election.getTotalNullVotes() < 0) {
+            throw new IllegalArgumentException("Dados da eleição inválidos");
+        }
+
         double validVotePercentage = (double) election.getTotalValidVotes() / election.getTotalVoters() * 100;
         double blankVotePercentage = (double) election.getTotalBlankVotes() / election.getTotalVoters() * 100;
         double nullVotePercentage = (double) election.getTotalNullVotes() / election.getTotalVoters() * 100;
@@ -18,7 +23,7 @@ public class ExerciseService {
 
     public BubbleSortResponseDTO bubbleSort(int[] array) {
         if (array == null || array.length == 0) {
-            return new BubbleSortResponseDTO(new int[0], new int[0], 0, 0, 0);
+            throw new IllegalArgumentException("Array não pode ser nulo ou vazio");
         }
 
         // Salvar o array original
@@ -56,5 +61,21 @@ public class ExerciseService {
 
         return new BubbleSortResponseDTO(originalArray, array, comparisons, swaps, executionTime);
     }
+
+    public long calculateFactorial(int number) {
+        if (number < 0) {
+            throw new IllegalArgumentException("Número não pode ser negativo");
+        }
+
+        if (number == 0 || number == 1) {
+            return 1L;
+        }
+
+        long result = 1L;
+        for (int i = 2; i <= number; i++) {
+            result *= i;
+        }
+        
+        return result;
+    }
 }
-    
