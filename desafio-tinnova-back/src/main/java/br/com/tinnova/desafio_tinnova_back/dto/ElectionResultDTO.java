@@ -1,6 +1,5 @@
 package br.com.tinnova.desafio_tinnova_back.dto;
 
-import br.com.tinnova.desafio_tinnova_back.entity.Election;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

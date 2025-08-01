@@ -12,21 +12,21 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { ChevronRight, GraduationCap, LayoutList, Users } from "lucide-react";
+import { Car, ChevronRight, LayoutList } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 
 const navItems = [
-  { href: "/gestao-veiculos", label: "Gestão de veículos", icon: GraduationCap },
+  { href: "/gestao-veiculos", label: "Gestão de veículos", icon: Car },
 ];
 
-const exerciciosItems = [
-  { href: "/exercicios/exercicio-1", label: "Exercício 1" },
-  { href: "/exercicios/exercicio-2", label: "Exercício 2" },
-  { href: "/exercicios/exercicio-3", label: "Exercício 3" },
-  { href: "/exercicios/exercicio-4", label: "Exercício 4" },
+const exerciseItems = [
+  { href: "/exercises/exercise-1", label: "Exercício 1" },
+  { href: "/exercises/exercise-2", label: "Exercício 2" },
+  { href: "/exercises/exercise-3", label: "Exercício 3" },
+  { href: "/exercises/exercise-4", label: "Exercício 4" },
 ];
 
 export default function AppSidebar() {
@@ -58,7 +58,7 @@ export default function AppSidebar() {
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <SidebarMenuSub>
-                  {exerciciosItems.map((item) => (
+                  {exerciseItems.map((item) => (
                     <SidebarMenuSubItem key={item.href}>
                       <SidebarMenuSubButton asChild isActive={pathname === item.href}>
                         <Link href={item.href} className="text-white hover:text-gray-300">

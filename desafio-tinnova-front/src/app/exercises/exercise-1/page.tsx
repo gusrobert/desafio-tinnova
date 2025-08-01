@@ -1,7 +1,7 @@
+import ElectionCalculatorForm from "@/components/exercises/ElectionCalculator";
 import AppLayout from "@/components/layout/AppLayout";
-import CalculadoraEleicaoForm from "@/components/exercicios/CalculadoraEleicaoForm";
 
-export default function Exercicio1Page() {
+export default function Exercise1Page() {
   return (
     <AppLayout pageTitle="Exercício 1">
       <div className="p-6">
@@ -49,34 +49,12 @@ export default function Exercicio1Page() {
           <div className="bg-gray-900 text-white p-4 rounded-lg overflow-x-auto">
             <pre className="text-sm">
               <code className="language-java">
-{`class CalculadoraEleicao {
-    private int totalEleitores;
-    private int validos;
-    private int brancos;
-    private int nulos;
-    
-    // Construtor
-    public CalculadoraEleicao(int totalEleitores, int validos, int brancos, int nulos) {
-        this.totalEleitores = totalEleitores;
-        this.validos = validos;
-        this.brancos = brancos;
-        this.nulos = nulos;
-    }
-    
-    // Método para calcular percentual de votos válidos
-    public double percentualValidos() {
-        return (double) validos / totalEleitores * 100;
-    }
-    
-    // Método para calcular percentual de votos brancos
-    public double percentualBrancos() {
-        return (double) brancos / totalEleitores * 100;
-    }
-    
-    // Método para calcular percentual de votos nulos
-    public double percentualNulos() {
-        return (double) nulos / totalEleitores * 100;
-    }
+                {`public ElectionResultDTO calculateElectionPercentages(Election election) {
+        double validVotePercentage = (double) election.getTotalValidVotes() / election.getTotalVoters() * 100;
+        double blankVotePercentage = (double) election.getTotalBlankVotes() / election.getTotalVoters() * 100;
+        double nullVotePercentage = (double) election.getTotalNullVotes() / election.getTotalVoters() * 100;
+
+        return new ElectionResultDTO(validVotePercentage, blankVotePercentage, nullVotePercentage);
 }`}
               </code>
             </pre>
@@ -86,7 +64,7 @@ export default function Exercicio1Page() {
         {/* Componente interativo */}
         <div className="bg-white border rounded-lg p-4">
           <h2 className="text-lg font-semibold mb-4">Teste Interativo</h2>
-          <CalculadoraEleicaoForm />
+          <ElectionCalculatorForm />
         </div>
       </div>
     </AppLayout>
